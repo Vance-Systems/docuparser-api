@@ -1,0 +1,87 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "DocuParser Invoice & Document API",
+    "description": "High-precision financial invoice key-value extraction, table parsing, and sensitive PII scrub.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://docuparser-api.onrender.com",
+      "description": "Production Cloud Server (Render Free Tier)"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "responses": {
+          "200": {
+            "description": "Service is healthy and online"
+          }
+        }
+      }
+    },
+    "/v1/invoice/extract": {
+      "post": {
+        "summary": "Extract Invoice Financial Fields",
+        "parameters": [
+          {
+            "name": "X-RapidAPI-Key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "document_text": {
+                    "type": "string",
+                    "description": "Raw invoice or document text to extract"
+                  }
+                },
+                "required": ["document_text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Structured invoice object with subtotal, tax, total, and line items"
+          }
+        }
+      }
+    },
+    "/v1/pii": {
+      "post": {
+        "summary": "Audit & Extract Document PII",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": {"type": "string"}
+                },
+                "required": ["text"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Extracted emails, phone numbers, and SSN detection"
+          }
+        }
+      }
+    }
+  }
+}

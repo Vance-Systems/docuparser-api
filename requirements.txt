@@ -1,0 +1,2 @@
+# Standard library zero-dependency microservice
+# Compatible with Render Free Tier ($0/mo) & RapidAPI
